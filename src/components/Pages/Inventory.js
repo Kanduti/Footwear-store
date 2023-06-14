@@ -26,7 +26,7 @@ const [counter, setCounter] = useState(0)
     <div>
  <div class="image_wrapper">
  {artikli.map(item => 
-    <div> <img  src={`data:image/png;base64,${item.Slika}`} alt="image unavialable" /><div style={{justifyContent: 'flex-end'}}>{item.Model_Naslov}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item["Market_price_in_€"]}€ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div> <img  src={`data:image/png;base64,${item.Slika}`} alt="image unavialable" /><div style={{alignItems: 'flex-end'}}>{item.Model_Naslov}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item["Market_price_in_€"]}€ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <button onClick={()=>func(basket.concat(item))}> Kupi <i className="fa fa-shopping-cart" ></i></button></div>
   </div> )}
 

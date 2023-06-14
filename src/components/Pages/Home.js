@@ -10,12 +10,12 @@ export const Home = () => {
  muted="muted" playsinline="playsinline" autoplay=""
  src={geoxvid} style={{width:'100%'}}></video>
 
- <h2 style={{color:'black', textAlign:'center'}}>Unleash your inner potential</h2>
+ <h2 style={{color:'black', textAlign:'center'}}>Style that inspires</h2>
 
  <div className="container">
  <img src={campers} style={{width:'100%'}}>
  </img>
- <div className='bottomleft' style={{color:'white'}}>Take your expectations to the next level</div> 
+ <div className='bottomleft' style={{color:'white'}}>Find your crew, grab your gear and go off the grid. </div> 
   </div>
    </div>
   );

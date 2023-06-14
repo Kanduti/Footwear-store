@@ -1,6 +1,7 @@
 .image_wrapper {
     display: flex;
-      flex-flow: row wrap;
+      flex-direction: row;
+      flex-wrap: wrap;
       height: 250px;
      align-items: flex-start;
      justify-content: space-between;
@@ -14,6 +15,7 @@
   border-color: rgb(183, 147, 93);
   border-width: 3px;
   border-style:solid;
+
  /* background-color: antiquewhite;*/
   }
 

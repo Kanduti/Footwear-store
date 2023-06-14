@@ -9,39 +9,39 @@ import LowcostLogo from "../assets/lowcost_logo.png"
 
 /*NEMA POTREBE ZA TIM LINKOVIMA BITNI SU SAMO PARAMETRI ZA CONTROLER*/ 
 
-const MutualCategs = ({spol}) => {
+const MutualCategs = ({spol, setExp, setClick}) => {
 //dakle mozda i nije lose sto si imao likext ovde ne znam uopste kako cu kondiciono da izrenderujem odabrane kategorije.
 //cipele, patike, sandale, cizme, papuce
 var x = spol === "women"
   return(
     <>
     <li className="nav-item">
-    <NavLink className="nav-links"  exact to={`/inventory/${spol}/cipele`}>
+    <NavLink className="nav-links"  exact to={`/inventory/${spol}/cipele`} onClick={()=>{setExp(false); setClick(false)}}>
    Cipele
   </NavLink>
     </li>
     <li className="nav-item">
-    <NavLink className="nav-links"  exact to={`/inventory/${spol}/patike`}>
+    <NavLink className="nav-links"  exact to={`/inventory/${spol}/patike`}  onClick={()=>{setExp(false); setClick(false)}}>
   Patike
   </NavLink>
     </li>
     <li className="nav-item">
-    <NavLink className="nav-links"  exact to={`/inventory/${spol}/sandale`}>
+    <NavLink className="nav-links"  exact to={`/inventory/${spol}/sandale`} onClick={()=>{setExp(false); setClick(false)}}>
 Sandale
   </NavLink>
     </li>
     <li className="nav-item">
-    <NavLink className="nav-links"  exact to={`/inventory/${spol}/cizme`}>
+    <NavLink className="nav-links"  exact to={`/inventory/${spol}/cizme`}  onClick={()=>{setExp(false); setClick(false)}}>
   Čizme
   </NavLink>
     </li>
     <li className="nav-item">
-    <NavLink className="nav-links"  exact to={`/inventory/${spol}/papuce`}>
+    <NavLink className="nav-links"  exact to={`/inventory/${spol}/papuce`}  onClick={()=>{setExp(false); setClick(false)}}>
   Papuče
   </NavLink>
     </li>
     {x?       <li className="nav-item">
-      <NavLink className="nav-links"  exact to={`/inventory/${spol}/stikle`}>
+      <NavLink className="nav-links"  exact to={`/inventory/${spol}/stikle`}  onClick={()=>{setExp(false); setClick(false)}}>
     Stikle
     </NavLink>
       </li> : null}
@@ -146,7 +146,7 @@ else
               {/*drop down is for desktop and inline one is for mobile*/}
             </li>
             <div style={{display: expWomen ? "block":"none"}}>
-           <MutualCategs spol={'women'}/>
+           <MutualCategs spol={'women'}  setExp={setExpWomen} setClick={setClick}/>
             </div>
             <div className="dropdown">
             <MutualCategs spol={'women'}/>
@@ -166,7 +166,7 @@ else
               {/*drop down is for desktop and inline one is for mobile*/}
             </li>
             <div style={{display: expWomen ? "block":"none"}}>
-           <MutualCategs spol={'kids'}/>
+           <MutualCategs spol={'kids'}  setExp={setExpKids} setClick={setClick}/>
             </div>
             <div className="dropdown">
             <MutualCategs spol={'kids'}/>
@@ -187,7 +187,7 @@ else
             </li>
 
             <div style={{display: expSale ? "block":"none"}}>
-           <MutualCategs spol={'sale'}/>
+           <MutualCategs spol={'sale'} setExp={setExpSale} setClick={setClick}/>
             </div>
 
             <div className="dropdown">
@@ -202,11 +202,11 @@ else
                 activeClassName="active"
                 className="nav-links"
                 onClick={()=>expand('man') }>
-                Muškarci
+                Muškarci  <div className='arrowheads'> &#x2304; </div> 
               </NavLink>
             </li>
             <div style={{display: expMan ? "block":"none"}}>
-           <MutualCategs spol={'man'}/>
+           <MutualCategs spol={'man'} setExp={setExpMan} setClick={setClick}/>
             </div>
 
             <div className="dropdown">
@@ -226,6 +226,7 @@ else
                 to="/basket"
                 activeClassName="active"
                 className="nav-links"
+                onClick={()=> setClick(false)}
                >
                    <i className="fa fa-shopping-cart" ></i>
                    <i style={{fontSize:19, color:'red' ,position: 'relative', left: -32, bottom:-14}} className='fas'>&#xf111;</i>
