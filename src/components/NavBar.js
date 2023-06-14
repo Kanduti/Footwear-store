@@ -9,37 +9,42 @@ import LowcostLogo from "../assets/lowcost_logo.png"
 
 /*NEMA POTREBE ZA TIM LINKOVIMA BITNI SU SAMO PARAMETRI ZA CONTROLER*/ 
 
-const MutualCategs = ({}) => {
+const MutualCategs = ({spol}) => {
 //dakle mozda i nije lose sto si imao likext ovde ne znam uopste kako cu kondiciono da izrenderujem odabrane kategorije.
 //cipele, patike, sandale, cizme, papuce
-
+var x = spol === "women"
   return(
     <>
     <li className="nav-item">
-    <NavLink className="nav-links"  exact to="/inventory">
+    <NavLink className="nav-links"  exact to={`/inventory/${spol}/cipele`}>
    Cipele
   </NavLink>
     </li>
     <li className="nav-item">
-    <NavLink className="nav-links"  exact to="/inventory">
+    <NavLink className="nav-links"  exact to={`/inventory/${spol}/patike`}>
   Patike
   </NavLink>
     </li>
     <li className="nav-item">
-    <NavLink className="nav-links"  exact to="/inventory">
+    <NavLink className="nav-links"  exact to={`/inventory/${spol}/sandale`}>
 Sandale
   </NavLink>
     </li>
     <li className="nav-item">
-    <NavLink className="nav-links"  exact to="/inventory">
+    <NavLink className="nav-links"  exact to={`/inventory/${spol}/cizme`}>
   Čizme
   </NavLink>
     </li>
     <li className="nav-item">
-    <NavLink className="nav-links"  exact to="/inventory">
+    <NavLink className="nav-links"  exact to={`/inventory/${spol}/papuce`}>
   Papuče
   </NavLink>
     </li>
+    {x?       <li className="nav-item">
+      <NavLink className="nav-links"  exact to={`/inventory/${spol}/stikle`}>
+    Stikle
+    </NavLink>
+      </li> : null}
          </>
   )
 }
@@ -48,7 +53,7 @@ Sandale
 
 
 
-function NavBar() {
+function NavBar({basket}) {
   const [click, setClick] = useState(false);
   const [showInp, setShowInp] = useState(false)
   const [search, setSearch] = useState('')
@@ -115,8 +120,12 @@ else
         <div className="nav-container">
           <NavLink exact to="/" className="nav-logo">
             {/*MOGAO SI DA UBACIS U NEKI KONTEJNER PA DA SKURBLAS STVAR AL MISLIM DA NEMA POTREBE*/}
-            <div >
-          <img src={LowcostLogo} alt="Lowcost luxe" style={{height:80}}></img>
+            <div style={{color:'chocolate', marginLeft:7}}>
+             <b> Gesix <br></br>Obuća</b>
+                <i style={{fontSize:24, color:'chocolate', position:'absolute', top:22}} class='fas'>&#xf54b;</i>
+             
+                
+          {/*<img src={LowcostLogo} alt="Lowcost luxe" style={{height:80}}></img>*/}
             </div>
             
           </NavLink>
@@ -137,10 +146,30 @@ else
               {/*drop down is for desktop and inline one is for mobile*/}
             </li>
             <div style={{display: expWomen ? "block":"none"}}>
-           <MutualCategs />
+           <MutualCategs spol={'women'}/>
             </div>
             <div className="dropdown">
-            <MutualCategs/>
+            <MutualCategs spol={'women'}/>
+            </div>
+            </div>
+            <div className="parent">
+            <li className="nav-item">
+              <NavLink
+                exact
+                to="/"
+                activeClassName="active"
+                className="nav-links"
+                onClick={()=>expand('kids') }
+              >
+                Deca <div className='arrowheads'> &#x2304; </div> 
+              </NavLink>
+              {/*drop down is for desktop and inline one is for mobile*/}
+            </li>
+            <div style={{display: expWomen ? "block":"none"}}>
+           <MutualCategs spol={'kids'}/>
+            </div>
+            <div className="dropdown">
+            <MutualCategs spol={'kids'}/>
             </div>
             </div>
       
@@ -158,11 +187,11 @@ else
             </li>
 
             <div style={{display: expSale ? "block":"none"}}>
-           <MutualCategs/>
+           <MutualCategs spol={'sale'}/>
             </div>
 
             <div className="dropdown">
-            <MutualCategs/>
+            <MutualCategs spol={'sale'}/>
             </div>
             </div>
             <div className="parent">
@@ -177,11 +206,11 @@ else
               </NavLink>
             </li>
             <div style={{display: expMan ? "block":"none"}}>
-           <MutualCategs/>
+           <MutualCategs spol={'man'}/>
             </div>
 
             <div className="dropdown">
-            <MutualCategs/>
+            <MutualCategs spol={'man'}/>
             </div>
             </div>
 
@@ -192,8 +221,17 @@ else
             <i className="fa" onClick={toggleShowInp}>&#xf002;</i>
           </div>
           <div >
-          <i className="fa fa-shopping-cart" ></i>
-            </div>
+          <NavLink
+                exact
+                to="/basket"
+                activeClassName="active"
+                className="nav-links"
+               >
+                   <i className="fa fa-shopping-cart" ></i>
+                   <i style={{fontSize:19, color:'red' ,position: 'relative', left: -32, bottom:-14}} className='fas'>&#xf111;</i>
+                   <div style={{fontSize:16, color:'black' ,position: 'relative', left: -4, bottom:12}}>{basket.length}</div>
+              </NavLink>
+              </div>
           
           <div onClick={toggleMenu} id="x" >
             <i className={click ? "fas fa-times" : "fas fa-bars"}></i>

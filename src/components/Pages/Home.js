@@ -1,6 +1,7 @@
 import React from "react";
 import geoxvid from "../../assets/stolen_geox_video.mp4"
 import campers from "../../assets/camp.avif"
+import './Home.css'
 export const Home = () => {
   return (
     <div  style={{marginTop:-100}}>
@@ -9,8 +10,13 @@ export const Home = () => {
  muted="muted" playsinline="playsinline" autoplay=""
  src={geoxvid} style={{width:'100%'}}></video>
 
- <p style={{color:'black', font:34}}>Vintage Retro and Free</p>
- <img src={campers} style={{width:'100%'}}></img>
-    </div>
+ <h2 style={{color:'black', textAlign:'center'}}>Unleash your inner potential</h2>
+
+ <div className="container">
+ <img src={campers} style={{width:'100%'}}>
+ </img>
+ <div className='bottomleft' style={{color:'white'}}>Take your expectations to the next level</div> 
+  </div>
+   </div>
   );
 };
