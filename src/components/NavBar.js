@@ -1,17 +1,14 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink, Router } from "react-router-dom";
 import "./NavBar.css";
-import LowcostLogo from "../assets/lowcost_logo.png"
-/*GLUPO JE DA IMAS POSEBAN ROUT ZA SVAKU KATEGORIJU JER JE CE PAGE BITI ISTI JEDINA RAZLIKA CE BITI ITEMI*/ 
-//DAKLE ZA MENU CLICK RENDERUJES KOMPONENTU SA PARAMATERIMA ZAVISNO OD KATEGORIJA
-//HOME BUTTON?
-/* Expandovane kategorije izizskuju posebnu kostimizaciju*/
-
-/*NEMA POTREBE ZA TIM LINKOVIMA BITNI SU SAMO PARAMETRI ZA CONTROLER*/ 
-
+import {useSelector} from 'react-redux'
+import obucaService from "../services/obuca"
+import { BrowserRouter as  Route, Routes } from "react-router-dom";
+import { Inventory } from "./Pages/Inventory";
+import {Buffer} from 'buffer';
+window.Buffer = window.Buffer
 const MutualCategs = ({spol, setExp, setClick}) => {
-//dakle mozda i nije lose sto si imao likext ovde ne znam uopste kako cu kondiciono da izrenderujem odabrane kategorije.
-//cipele, patike, sandale, cizme, papuce
+
 var x = spol === "women"
   return(
     <>
@@ -50,6 +47,24 @@ Sandale
 }
 
 
+const SearchItems = ({items, search, setSearch, setResults, setItems}) =>{
+  let tempo = items;
+    let resulting = tempo.filter(temp => temp.Model_Naslov.substring(0, search.length) == search)
+   
+if(items.length == 0){
+  return(<div></div>)
+}
+else{
+return(<>
+
+  
+    {resulting.map(item => <li className="nav-item" style={{}}>
+    <NavLink className="nav-links"  exact to={`/${item.idObuca}`}  onClick={()=>{setResults(item); setSearch(''); setItems([])}}>
+                            <img className='nav-image'style={{display:'inline'}} src={`data:image/png;base64,${Buffer.from(item.Slika? item.Slika : "ahrhregaewadawsgf").toString('base64')}`}/> {item.Model_Naslov} 
+                             </NavLink>
+                   </li>)}
+
+</>)}}
 
 
 
@@ -61,6 +76,10 @@ function NavBar({basket}) {
   const [expWomen, setExpWomen] = useState(false)
   const [expKids, setExpKids] = useState(false)
   const [expSale, setExpSale] = useState(false)
+  const [items, setItems] = useState([])
+  const artikl = useSelector(state=>state)
+  const [results, setResults] = useState({})
+
   const toggleMenu = () => {setClick(!click)
    setShowInp(false)}
   const toggleShowInp = () => {setShowInp(!showInp)
@@ -84,14 +103,38 @@ function expand(str) {
         break;
   }
 } else return
-  
 }
+
+useEffect(()=> {
+localStorage.setItem('rezultat',  JSON.stringify(results))
+},[results])
+
   function searchItems(e)
   { e.preventDefault();
      setSearch(e.target.value);
+     console.log('current search', search);
+    if(search.length >= 3)
+    {
+        if(items.length===0)
+        {
+          obucaService
+           .getAll()
+           .then((response)=> {
+            console.log(response.map(item => item.Model_Naslov));
+            
+            setItems(response)
+           })
+        }
+
+
+    }
+    else {
+      setItems([])
+    }
      }
+
      var midija = window.matchMedia("(max-width: 960px)")
-     function mediaFunc (inFlex) {
+     function searchFieldFunc (inFlex) {
       if(inFlex){
         if(!midija.matches)
         {
@@ -104,7 +147,7 @@ function expand(str) {
       }
       else {
         if(midija.matches)
-{  return ( <div> <input type='search' name="q" onChange={searchItems} value={search} id="mobileSearch" className={showInp?"fas fa-times": "Nestani"} placeholder='  &#xf002; Search...'></input>  </div>)
+{  return ( <div> {console.log(showInp, 'inp')}<input type='search' name="q" style={{display:'block' , zIndex:10}}onChange={searchItems} value={search} id="mobileSearch" className={showInp?"fas fa-times": "Nestani"} placeholder='  &#xf002; Search...'></input>  </div>)
 }
 else 
 {
@@ -119,13 +162,12 @@ else
       <nav className="navbar">
         <div className="nav-container">
           <NavLink exact to="/" className="nav-logo">
-            {/*MOGAO SI DA UBACIS U NEKI KONTEJNER PA DA SKURBLAS STVAR AL MISLIM DA NEMA POTREBE*/}
-            <div style={{color:'chocolate', marginLeft:7}}>
+          
+            <div style={{color:'black', marginLeft:7}}>
              <b> Gesix <br></br>Obuća</b>
-                <i style={{fontSize:24, color:'chocolate', position:'absolute', top:22}} class='fas'>&#xf54b;</i>
+                <i style={{fontSize:24, color:'black', position:'absolute', top:22}} class='fas'>&#xf54b;</i>
              
-                
-          {/*<img src={LowcostLogo} alt="Lowcost luxe" style={{height:80}}></img>*/}
+    
             </div>
             
           </NavLink>
@@ -205,20 +247,25 @@ else
                 Muškarci  <div className='arrowheads'> &#x2304; </div> 
               </NavLink>
             </li>
+       
             <div style={{display: expMan ? "block":"none"}}>
            <MutualCategs spol={'man'} setExp={setExpMan} setClick={setClick}/>
+         
             </div>
-
+        
             <div className="dropdown">
+        
             <MutualCategs spol={'man'}/>
             </div>
+        
             </div>
-
+          
           </ul>
    <div className="flex-right">
-   {mediaFunc(true)}
-          <div>
+   {searchFieldFunc(true)}
+          <div >
             <i className="fa" onClick={toggleShowInp}>&#xf002;</i>
+       
           </div>
           <div >
           <NavLink
@@ -230,23 +277,34 @@ else
                >
                    <i className="fa fa-shopping-cart" ></i>
                    <i style={{fontSize:19, color:'red' ,position: 'relative', left: -32, bottom:-14}} className='fas'>&#xf111;</i>
-                   <div style={{fontSize:16, color:'black' ,position: 'relative', left: -4, bottom:12}}>{basket.length}</div>
+                   <div style={{fontSize:16, color:'black' ,position: 'relative', left: -4, bottom:12}}>{artikl.artikl.length}</div>
               </NavLink>
               </div>
-          
+          <div>
+          <NavLink
+                exact
+                to="/favorites"
+                activeClassName="active"
+                className="nav-links"
+                onClick={()=> setClick(false)}
+               >
+                   <i className="fa fa-star" ></i>
+              </NavLink>
+          </div>
           <div onClick={toggleMenu} id="x" >
             <i className={click ? "fas fa-times" : "fas fa-bars"}></i>
             </div>
     </div>  
-            
+    
         </div>
         
       </nav>
-      {mediaFunc(false)}
-     
-      
-       
-     
+      <div className='pacenik'>
+         <SearchItems items={items} search={search} setSearch={setSearch} setResults = {setResults} setItems = {setItems}/>
+         </div>
+      {searchFieldFunc(false)}
+
+    
     </div>
 
   );

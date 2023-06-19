@@ -7,6 +7,10 @@ const get = async (path) => {
     console.log('data recived from server inside services', response.data)
     return response.data;
 }
+const getAll = async () => {
+    const response = await axios.get(baseUrl)
+    return response.data
+}
 
 
-export default {get}
+export default {get, getAll}

@@ -4,9 +4,9 @@ import campers from "../../assets/camp.avif"
 import './Home.css'
 export const Home = () => {
   return (
-    <div  style={{marginTop:-100}}>
-      <video data-click-type="OTHER" id="vjs_video_3_html5_api" tabindex="-1"
- role="application" class="vjs-tech" preload="metadata" loop="true"
+    <div  style={{marginTop:15, zIndex: -5}}>
+      <video data-click-type="OTHER"  tabindex="-1"
+ role="application" preload="metadata" loop="true"
  muted="muted" playsinline="playsinline" autoplay=""
  src={geoxvid} style={{width:'100%'}}></video>
 
