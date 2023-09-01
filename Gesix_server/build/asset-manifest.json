@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/static/css/main.4f672286.css",
+    "main.js": "/static/js/main.85d7b704.js",
+    "static/media/stolen_geox_video.mp4": "/static/media/stolen_geox_video.fd9a328dab00d1f2411c.mp4",
+    "static/media/camp.avif": "/static/media/camp.ed9288dcbdeaff70e09b.avif",
+    "index.html": "/index.html",
+    "main.4f672286.css.map": "/static/css/main.4f672286.css.map",
+    "main.85d7b704.js.map": "/static/js/main.85d7b704.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4f672286.css",
+    "static/js/main.85d7b704.js"
+  ]
+}
