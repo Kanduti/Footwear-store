@@ -4,6 +4,17 @@ const obucaRouter = require('express').Router()
 //const app = require('../App')
 
 
+obucaRouter.get('/', (request, response) => {
+  con.query('SELECT * FROM obuca', (err,rows) => {
+    if(err) throw err;
+  
+    console.log('Data received from Db:');
+    console.log(rows);
+    response.json(rows);
+  });
+ 
+})
+
 
 
 obucaRouter.get('', (request,response) => {
